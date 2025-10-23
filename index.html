@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manalo High School - Home</title>
+    <link rel="stylesheet" href="ex/styles_css.css">
+    <script src="ex/chart.min.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">🎓 Manalo High School</div>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link active">Home</a></li>
+                <li class="nav-item"><a href="students_page.html" class="nav-link">Students</a></li>
+                <li class="nav-item"><a href="contact_page.html" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="page-header">
+            <h1>Welcome to Manalo High School</h1>
+            <p>Excellence in Education Since 1995 - Dashboard Overview</p>
+        </div>
+        
+        <div class="page-content">
+            <div class="welcome-section">
+                <h2 class="welcome-title">School Administration Dashboard</h2>
+                <p style="font-size: 1.1rem; color: #718096; max-width: 600px; margin: 0 auto;">
+                    Real-time overview of student enrollment, academic performance, and school statistics.
+                </p>
+            </div>
+            
+            <div class="announcements">
+                <h3 style="margin-bottom: 1rem;">📢 School Announcements</h3>
+                <div class="announcement-text" id="announcement-text">
+                    Enrollment is open until June 30!
+                </div>
+            </div>
+
+            <!-- Enhanced Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card stat-card-blue">
+                    <div class="stat-icon">👥</div>
+                    <h3 id="total-students-display">0</h3>
+                    <p>Total Students</p>
+                    <span class="trend-indicator trend-up" id="enrollment-trend">+3% this month</span>
+                </div>
+                <div class="stat-card stat-card-pink">
+                    <div class="stat-icon">👨‍🏫</div>
+                    <h3>85+</h3>
+                    <p>Expert Teachers</p>
+                    <span class="trend-indicator trend-up">+2 new hires</span>
+                </div>
+                <div class="stat-card stat-card-cyan">
+                    <div class="stat-icon">🏆</div>
+                    <h3>15+</h3>
+                    <p>Awards Won</p>
+                    <span class="trend-indicator trend-up">+3 this year</span>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <a href="students_page.html" class="action-btn">
+                    👥 View All Students
+                </a>
+                <a href="contact_page.html" class="action-btn">
+                    📧 Contact Administration
+                </a>
+                <a href="#" class="action-btn" onclick="generateReport()">
+                    📊 Generate Report
+                </a>
+                <a href="#" class="action-btn" onclick="showEnrollmentForm()">
+                    ➕ New Enrollment
+                </a>
+            </div>
+
+            <!-- Dashboard Cards -->
+            <div class="dashboard-grid">
+                <!-- Grade Distribution Chart -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-icon">📊</div>
+                        <div class="card-title">Grade Distribution</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="gradeChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Section Overview -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-icon">🏫</div>
+                        <div class="card-title">Section Overview</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="sectionChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Student Status -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-icon">✅</div>
+                        <div class="card-title">Student Status</div>
+                    </div>
+                    <div id="status-metrics">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                    <div class="chart-container" style="height: 150px;">
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-icon">🔔</div>
+                        <div class="card-title">Recent Activity</div>
+                    </div>
+                    <div class="recent-activity" id="recent-activity">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Performance Metrics -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-icon">📈</div>
+                        <div class="card-title">School Performance</div>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Academic Performance</span>
+                        <span class="metric-value">92%<span class="performance-indicator indicator-excellent">Excellent</span></span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Attendance Rate</span>
+                        <span class="metric-value">96%<span class="performance-indicator indicator-excellent">Excellent</span></span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Teacher Satisfaction</span>
+                        <span class="metric-value">88%<span class="performance-indicator indicator-good">Good</span></span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Student Retention</span>
+                        <span class="metric-value">94%<span class="performance-indicator indicator-excellent">Excellent</span></span>
+                    </div>
+                </div>
+
+                <!-- Quick Student Search -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-icon">🔍</div>
+                        <div class="card-title">Quick Student Lookup</div>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <input type="text" id="quick-search" placeholder="Enter student name or ID..." 
+                               style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 1rem;">
+                        <button onclick="quickSearch()" style="width: 100%; padding: 0.75rem; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer;">
+                            Search Student
+                        </button>
+                    </div>
+                    <div id="quick-search-result" style="padding: 1rem 0; border-top: 1px solid #f1f5f9; margin-top: 1rem; display: none;">
+                        <!-- Search results will appear here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Original Features Section -->
+            <div class="features-section">
+                <h2 style="text-align: center; margin-bottom: 2rem; color: #4a5568;">Our Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📚</div>
+                        <h3>Quality Education</h3>
+                        <p>Comprehensive curriculum designed to prepare students for future success</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔬</div>
+                        <h3>Modern Facilities</h3>
+                        <p>State-of-the-art laboratories, library, and technology resources</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎭</div>
+                        <h3>Extracurricular Activities</h3>
+                        <p>Wide range of clubs, sports, and activities for holistic development</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Manalo High School</h4>
+                    <p>Building futures, one student at a time.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="students.html">Students</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>📍 143 Brent Street, Manalo City, JM 0420</p>
+                    <p>📞 (555) 123-4567</p>
+                    <p>✉️ examplenijhun@baccay.edu</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Manalo High School. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="ex/javascript_file.js"></script>
+    <script>
+        // Dashboard-specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            <!-- initializeDashboard(); -->
+        });
+
+        function initializeDashboard() {
+            updateDashboardStats();
+            createGradeChart();
+            createSectionChart();
+            createStatusChart();
+            populateRecentActivity();
+            setupQuickSearch();
+        }
+
+        function updateDashboardStats() {
+            // Update total students display
+            const totalStudentsEl = document.getElementById('total-students-display');
+            if (totalStudentsEl && window.SchoolSystem) {
+                totalStudentsEl.textContent = window.SchoolSystem.students.length;
+            }
+        }
+
+        function createGradeChart() {
+            const ctx = document.getElementById('gradeChart');
+            if (!ctx || !window.SchoolSystem) return;
+
+            const gradeCounts = {};
+            window.SchoolSystem.students.forEach(student => {
+                gradeCounts[student.grade] = (gradeCounts[student.grade] || 0) + 1;
+            });
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(gradeCounts),
+                    datasets: [{
+                        data: Object.values(gradeCounts),
+                        backgroundColor: ['#667eea', '#ed8936', '#38b2ac', '#9f7aea'],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createSectionChart() {
+            const ctx = document.getElementById('sectionChart');
+            if (!ctx || !window.SchoolSystem) return;
+
+            const sectionCounts = {};
+            window.SchoolSystem.students.forEach(student => {
+                const key = `Section ${student.section}`;
+                sectionCounts[key] = (sectionCounts[key] || 0) + 1;
+            });
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(sectionCounts),
+                    datasets: [{
+                        label: 'Students per Section',
+                        data: Object.values(sectionCounts),
+                        backgroundColor: '#667eea',
+                        borderRadius: 6,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createStatusChart() {
+            const ctx = document.getElementById('statusChart');
+            if (!ctx || !window.SchoolSystem) return;
+
+            const statusCounts = {
+                'Active': 0,
+                'Inactive': 0
+            };
+
+            window.SchoolSystem.students.forEach(student => {
+                statusCounts[student.status]++;
+            });
+
+            // Update status metrics
+            const statusMetrics = document.getElementById('status-metrics');
+            if (statusMetrics) {
+                statusMetrics.innerHTML = `
+                    <div class="metric-row">
+                        <span class="metric-label">Active Students</span>
+                        <span class="metric-value">${statusCounts.Active}</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Inactive Students</span>
+                        <span class="metric-value">${statusCounts.Inactive}</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Active Rate</span>
+                        <span class="metric-value">${Math.round((statusCounts.Active / window.SchoolSystem.students.length) * 100)}%</span>
+                    </div>
+                `;
+            }
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Active', 'Inactive'],
+                    datasets: [{
+                        data: [statusCounts.Active, statusCounts.Inactive],
+                        backgroundColor: ['#38a169', '#e53e3e'],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        function populateRecentActivity() {
+            const activityContainer = document.getElementById('recent-activity');
+            if (!activityContainer) return;
+
+            const activities = [
+                {
+                    type: 'new',
+                    icon: '👤',
+                    title: 'New student enrolled: Blessed Monica Ydel',
+                    time: '2 hours ago'
+                },
+                {
+                    type: 'update',
+                    icon: '📝',
+                    title: 'Grade reports updated for 12th Grade Section A',
+                    time: '4 hours ago'
+                },
+                {
+                    type: 'alert',
+                    icon: '⚠️',
+                    title: 'Parent-teacher meeting scheduled',
+                    time: '6 hours ago'
+                },
+                {
+                    type: 'new',
+                    icon: '📚',
+                    title: 'New course materials uploaded',
+                    time: '1 day ago'
+                },
+                {
+                    type: 'update',
+                    icon: '✅',
+                    title: 'Attendance records synchronized',
+                    time: '1 day ago'
+                }
+            ];
+
+            activityContainer.innerHTML = activities.map(activity => `
+                <div class="activity-item">
+                    <div class="activity-icon activity-${activity.type}">
+                        ${activity.icon}
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">${activity.title}</div>
+                        <div class="activity-time">${activity.time}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function setupQuickSearch() {
+            const searchInput = document.getElementById('quick-search');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        quickSearch();
+                    }
+                });
+            }
+        }
+
+        function quickSearch() {
+            const searchInput = document.getElementById('quick-search');
+            const resultDiv = document.getElementById('quick-search-result');
+            
+            if (!searchInput || !resultDiv || !window.SchoolSystem) return;
+            
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            
+            if (!searchTerm) {
+                resultDiv.style.display = 'none';
+                return;
+            }
+            
+            const foundStudents = window.SchoolSystem.students.filter(student => 
+                student.name.toLowerCase().includes(searchTerm) || 
+                student.id.toLowerCase().includes(searchTerm)
+            );
+            
+            if (foundStudents.length > 0) {
+                const student = foundStudents[0]; // Show first match
+                resultDiv.innerHTML = `
+                    <div style="text-align: center;">
+                        <h4 style="color: #1a202c; margin-bottom: 0.5rem;">${student.name}</h4>
+                        <p style="color: #4a5568; margin-bottom: 0.25rem;">ID: ${student.id}</p>
+                        <p style="color: #4a5568; margin-bottom: 0.25rem;">${student.grade} - Section ${student.section}</p>
+                        <span class="status-${student.status.toLowerCase()}">${student.status}</span>
+                        ${foundStudents.length > 1 ? `<p style="margin-top: 0.75rem; color: #718096; font-size: 0.875rem;">+${foundStudents.length - 1} more found</p>` : ''}
+                    </div>
+                `;
+                resultDiv.style.display = 'block';
+            } else {
+                resultDiv.innerHTML = `
+                    <div style="text-align: center; color: #718096;">
+                        <p>No student found with that name or ID</p>
+                    </div>
+                `;
+                resultDiv.style.display = 'block';
+            }
+        }
+
+        function generateReport() {
+            if (!window.SchoolSystem) return;
+            
+            const students = window.SchoolSystem.students;
+            const gradeCounts = {};
+            const sectionCounts = {};
+            let activeCount = 0;
+            
+            students.forEach(student => {
+                gradeCounts[student.grade] = (gradeCounts[student.grade] || 0) + 1;
+                sectionCounts[student.section] = (sectionCounts[student.section] || 0) + 1;
+                if (student.status === 'Active') activeCount++;
+            });
+            
+            const report = `
+MANALO HIGH SCHOOL - STUDENT REPORT
+Generated: ${new Date().toLocaleDateString()}
+
+SUMMARY STATISTICS:
+- Total Students: ${students.length}
+- Active Students: ${activeCount}
+- Inactive Students: ${students.length - activeCount}
+- Active Rate: ${Math.round((activeCount / students.length) * 100)}%
+
+GRADE DISTRIBUTION:
+${Object.entries(gradeCounts).map(([grade, count]) => `- ${grade}: ${count} students`).join('\n')}
+
+SECTION DISTRIBUTION:
+${Object.entries(sectionCounts).map(([section, count]) => `- Section ${section}: ${count} students`).join('\n')}
+
+END OF REPORT
+            `;
+            
+            // Create and download report
+            const blob = new Blob([report], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `manalo_school_report_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('Report generated and downloaded successfully!');
+        }
+
+        function showEnrollmentForm() {
+            alert('New Enrollment Form\n\nThis would typically open a form for new student registration. For now, please contact the admissions office at (555) 123-4568 or visit our Contact page.');
+        }
+
+        // Override the original homepage initialization to include dashboard
+        function initializeHomePage() {
+            const announcementText = document.getElementById('announcement-text');
+            if (announcementText) {
+                rotateAnnouncements();
+            }
+            
+            // Initialize dashboard after a short delay to ensure DOM is ready
+            setTimeout(initializeDashboard, 100);
+        }
+    </script>
+    <!-- CHATBOT CODE STARTS HERE -->
+    <div id="chatbot-root"></div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+    const { useState, useRef, useEffect } = React;
+
+    // Icons
+    const Send = ({ size = 24 }) => (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <line x1="22" y1="2" x2="11" y2="13"></line>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+      </svg>
+    );
+
+    const MessageSquare = ({ size = 24 }) => (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+      </svg>
+    );
+
+    const X = ({ size = 24 }) => (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    );
+
+    const Minimize2 = ({ size = 24 }) => (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <polyline points="4 14 10 14 10 20"></polyline>
+        <polyline points="20 10 14 10 14 4"></polyline>
+        <line x1="14" y1="10" x2="21" y2="3"></line>
+        <line x1="3" y1="21" x2="10" y2="14"></line>
+      </svg>
+    );
+
+// UPDATED CHATBOT CODE - Replace the ManaloChatbot component in ALL your HTML files
+// This version calls your backend API instead of exposing the API key
+
+// Replace the chatbot <script type="text/babel"> section in ALL your HTML files with this:
+
+const ManaloChatbot = () => {
+  const [messages, setMessages] = useState([
+    {
+      role: 'assistant',
+      content: 'Hello! 👋 Welcome to Manalo High School. I\'m here to help answer your questions about our school. You can ask me about:\n\n• Enrollment and admissions\n• School facilities and programs\n• Contact information\n• Student statistics\n• Faculty and staff\n• Extracurricular activities\n\nWhat would you like to know?'
+    }
+  ]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const schoolContext = `You are a helpful assistant for Manalo High School. Here is important information about the school:
+
+SCHOOL INFORMATION:
+- Name: Manalo High School
+- Established: 1995
+- Motto: "Excellence in Education"
+- Mission: Building futures, one student at a time
+
+STATISTICS:
+- Total Students: 33
+- Expert Teachers: 85+
+- Awards Won: 15+
+- Grade Levels: 9th, 10th, 11th, and 12th Grade
+- Sections: A, B, and C
+- Active Students: 32
+- Academic Performance: 92%
+- Attendance Rate: 96%
+- Teacher Satisfaction: 88%
+- Student Retention: 94%
+
+LOCATION & CONTACT:
+- Address: 143 Brent Street, Manalo City, JM 0420, Philippines
+- Main Office: (555) 123-4567
+- Admissions: (555) 123-4568
+- Fax: (555) 123-4569
+- General Email: examplenijhun@baccay.edu
+- Admissions Email: brentjhun@forever.edu
+- Support Email: supportjhunmark@forskincare.edu
+
+OFFICE HOURS:
+- Monday - Friday: 8:00 AM - 5:00 PM
+- Saturday: 9:00 AM - 2:00 PM
+- Sunday: Closed
+
+FEATURES & PROGRAMS:
+- Quality Education: Comprehensive curriculum designed for future success
+- Modern Facilities: State-of-the-art laboratories, library, and technology resources
+- Extracurricular Activities: Wide range of clubs, sports, and activities
+- Science Fair and competitions
+- Basketball and sports programs
+- Library with extended hours during exam week
+
+ENROLLMENT:
+- Enrollment opens periodically (typically until June 30)
+- Contact admissions office for enrollment inquiries
+
+SOCIAL MEDIA:
+- Facebook: facebook.com/jhunmark.baccay.9
+- Twitter: x.com/mikslmnc
+- Instagram: instagram.com/brentymanalo/
+- GitHub: github.com/Baccay-JhunMark-BSCS21A1
+
+Please provide helpful, accurate, and friendly responses about Manalo High School. Keep responses concise (2-3 paragraphs maximum). If asked about something not covered in this information, politely indicate you can provide general information but recommend contacting the school directly for specific details.`;
+
+  const handleSendMessage = async () => {
+    if (!input.trim() || isLoading) return;
+
+    const userMessage = { role: 'user', content: input };
+    setMessages(prev => [...prev, userMessage]);
+    const userInput = input;
+    setInput('');
+    setIsLoading(true);
+
+    try {
+      // Call backend API (now using DeepSeek)
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: `${schoolContext}\n\nUser Question: ${userInput}\n\nPlease provide a helpful, concise response about Manalo High School.`
+            }]
+          }]
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (data.error) {
+        throw new Error(data.error.message || 'API Error');
+      }
+
+      const aiResponse = data.candidates[0].content.parts[0].text;
+      
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: aiResponse
+      }]);
+    } catch (error) {
+      console.error('Error:', error);
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: 'I apologize, but I\'m having trouble connecting right now. Please try again or contact us directly at (555) 123-4567 or examplenijhun@baccay.edu.'
+      }]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  const quickQuestions = [
+    "What are the school hours?",
+    "How can I enroll?",
+    "What facilities do you have?",
+    "How many students attend?"
+  ];
+
+  const handleQuickQuestion = (question) => {
+    setInput(question);
+  };
+
+  if (!isOpen) {
+    return (
+      <button
+        onClick={() => setIsOpen(true)}
+        style={{
+          position: 'fixed',
+          bottom: '24px',
+          right: '24px',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: 'white',
+          padding: '16px 24px',
+          borderRadius: '50px',
+          border: 'none',
+          boxShadow: '0 10px 25px rgba(102, 126, 234, 0.3)',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          zIndex: 1000,
+          fontSize: '16px',
+          fontWeight: '600'
+        }}
+      >
+        <MessageSquare size={24} />
+        <span>Chat with us</span>
+      </button>
+    );
+  }
+
+  return (
+    <div style={{
+      position: 'fixed',
+      bottom: '24px',
+      right: '24px',
+      background: 'white',
+      borderRadius: '16px',
+      boxShadow: '0 20px 60px rgba(0, 0, 0, 0.15)',
+      border: '1px solid #e2e8f0',
+      display: 'flex',
+      flexDirection: 'column',
+      zIndex: 1000,
+      width: '384px',
+      height: isMinimized ? '64px' : '600px',
+      transition: 'height 0.3s ease'
+    }}>
+      {/* Header */}
+      <div style={{
+        background: 'linear-gradient(135deg, #667eea 0%, #718096 100%)',
+        color: 'white',
+        padding: '16px',
+        borderTopLeftRadius: '16px',
+        borderTopRightRadius: '16px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ background: 'white', borderRadius: '50%', padding: '8px', fontSize: '20px' }}>
+            🎓
+          </div>
+          <div>
+            <h3 style={{ fontWeight: '600', fontSize: '18px', margin: 0 }}>Manalo High School</h3>
+            <p style={{ fontSize: '12px', margin: 0, opacity: 0.9 }}>AI Assistant</p>
+          </div>
+        </div>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button onClick={() => setIsMinimized(!isMinimized)} style={{
+            background: 'rgba(255, 255, 255, 0.2)', border: 'none', color: 'white',
+            padding: '4px', borderRadius: '4px', cursor: 'pointer'
+          }}>
+            <Minimize2 size={18} />
+          </button>
+          <button onClick={() => setIsOpen(false)} style={{
+            background: 'rgba(255, 255, 255, 0.2)', border: 'none', color: 'white',
+            padding: '4px', borderRadius: '4px', cursor: 'pointer'
+          }}>
+            <X size={18} />
+          </button>
+        </div>
+      </div>
+
+      {!isMinimized && (
+        <>
+          <div style={{ flex: 1, overflowY: 'auto', padding: '16px', background: '#f7fafc' }}>
+            {messages.map((message, index) => (
+              <div key={index} style={{
+                display: 'flex',
+                justifyContent: message.role === 'user' ? 'flex-end' : 'flex-start',
+                marginBottom: '16px'
+              }}>
+                <div style={{
+                  maxWidth: '80%', borderRadius: '16px', padding: '12px',
+                  background: message.role === 'user' ? '#667eea' : 'white',
+                  color: message.role === 'user' ? 'white' : '#2d3748',
+                  boxShadow: message.role === 'assistant' ? '0 1px 3px rgba(0, 0, 0, 0.1)' : 'none',
+                  border: message.role === 'assistant' ? '1px solid #e2e8f0' : 'none',
+                  borderBottomRightRadius: message.role === 'user' ? '4px' : '16px',
+                  borderBottomLeftRadius: message.role === 'assistant' ? '4px' : '16px'
+                }}>
+                  <p style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '1.6', margin: 0 }}>
+                    {message.content}
+                  </p>
+                </div>
+              </div>
+            ))}
+            
+            {isLoading && (
+              <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <div style={{ background: 'white', borderRadius: '16px', padding: '12px', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
+                  <div style={{ display: 'flex', gap: '4px' }}>
+                    <div style={{ width: '8px', height: '8px', background: '#a0aec0', borderRadius: '50%', animation: 'bounce 1.4s infinite' }}></div>
+                    <div style={{ width: '8px', height: '8px', background: '#a0aec0', borderRadius: '50%', animation: 'bounce 1.4s infinite', animationDelay: '0.2s' }}></div>
+                    <div style={{ width: '8px', height: '8px', background: '#a0aec0', borderRadius: '50%', animation: 'bounce 1.4s infinite', animationDelay: '0.4s' }}></div>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {messages.length === 1 && (
+            <div style={{ padding: '8px 16px', background: '#f7fafc', borderTop: '1px solid #e2e8f0' }}>
+              <p style={{ fontSize: '12px', color: '#718096', marginBottom: '8px', fontWeight: '500' }}>Quick questions:</p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                {quickQuestions.map((question, index) => (
+                  <button key={index} onClick={() => handleQuickQuestion(question)} style={{
+                    fontSize: '12px', background: 'white', border: '1px solid #cbd5e0',
+                    color: '#4a5568', padding: '6px 12px', borderRadius: '20px', cursor: 'pointer'
+                  }}>
+                    {question}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div style={{ padding: '16px', borderTop: '1px solid #e2e8f0', background: 'white', borderBottomLeftRadius: '16px', borderBottomRightRadius: '16px' }}>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Type your question..."
+                disabled={isLoading}
+                style={{
+                  flex: 1, padding: '8px 16px', border: '1px solid #cbd5e0',
+                  borderRadius: '50px', outline: 'none', fontSize: '14px'
+                }}
+              />
+              <button
+                onClick={handleSendMessage}
+                disabled={!input.trim() || isLoading}
+                style={{
+                  background: input.trim() && !isLoading ? '#667eea' : '#cbd5e0',
+                  color: 'white', padding: '8px', borderRadius: '50%', border: 'none',
+                  cursor: input.trim() && !isLoading ? 'pointer' : 'not-allowed',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}
+              >
+                <Send size={18} />
+              </button>
+            </div>
+            <p style={{ fontSize: '11px', color: '#a0aec0', marginTop: '8px', textAlign: 'center', margin: '8px 0 0 0' }}>
+              Powered by DeepSeek AI
+            </p>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+    const root = ReactDOM.createRoot(document.getElementById('chatbot-root'));
+    root.render(<ManaloChatbot />);
+    </script>
+
+    <style>
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1.0); }
+    }
+    </style>
+    <!-- CHATBOT CODE ENDS HERE -->
+
+</body>
+</html>

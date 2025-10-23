@@ -1,0 +1,13 @@
+{
+  "name": "manalo-high-school",
+  "version": "1.0.0",
+  "description": "Manalo High School Website with AI Chatbot",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Build complete'"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=18.x"
+  }
+}
