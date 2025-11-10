@@ -1,12 +1,10 @@
-// api/chat.js
-// DeepSeek API handler for serverless deployment
-
 module.exports = async function handler(req, res) {
-  // Enable CORS
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  // Allow requests from your frontend
+  const allowedOrigin = 'https://manalo-high.vercel.app';
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
   // Handle preflight requests
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -18,39 +16,30 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    // Get API key from environment variable
     const API_KEY = process.env.DEEPSEEK_API_KEY;
-    
     if (!API_KEY) {
-      console.error('DEEPSEEK_API_KEY not found in environment variables');
-      return res.status(500).json({ 
-        error: 'Server configuration error. Please contact administrator.' 
-      });
+      console.error('DEEPSEEK_API_KEY not found');
+      return res.status(500).json({ error: 'Server misconfiguration' });
     }
 
-    // Convert Gemini format to DeepSeek/OpenAI format
     const geminiRequest = req.body;
     const messages = [];
-    
-    // Extract the text from Gemini format and convert to DeepSeek format
-    if (geminiRequest.contents && geminiRequest.contents[0] && geminiRequest.contents[0].parts) {
-      const text = geminiRequest.contents[0].parts[0].text;
+
+    if (geminiRequest.contents?.[0]?.parts?.[0]?.text) {
       messages.push({
         role: 'user',
-        content: text
+        content: geminiRequest.contents[0].parts[0].text
       });
     }
 
-    // DeepSeek API request
     const deepseekRequest = {
       model: 'deepseek-chat',
-      messages: messages,
+      messages,
       temperature: 0.7,
       max_tokens: 1000,
       stream: false
     };
 
-    // Call DeepSeek API
     const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -61,21 +50,15 @@ module.exports = async function handler(req, res) {
     });
 
     const data = await response.json();
-    
-    // Check for errors
+
     if (data.error) {
       console.error('DeepSeek API error:', data.error);
       return res.status(response.status).json(data);
     }
 
-    // Convert DeepSeek response to Gemini format for compatibility
     const geminiResponse = {
       candidates: [{
-        content: {
-          parts: [{
-            text: data.choices[0].message.content
-          }]
-        },
+        content: { parts: [{ text: data.choices[0].message.content }] },
         finishReason: data.choices[0].finish_reason,
         index: 0
       }],
@@ -85,15 +68,11 @@ module.exports = async function handler(req, res) {
         totalTokens: data.usage?.total_tokens || 0
       }
     };
-    
-    // Return successful response in Gemini-compatible format
+
     res.status(200).json(geminiResponse);
-    
+
   } catch (error) {
     console.error('Server error:', error);
-    res.status(500).json({ 
-      error: 'Internal server error',
-      message: error.message 
-    });
+    res.status(500).json({ error: 'Internal server error', message: error.message });
   }
 };
