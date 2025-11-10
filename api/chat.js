@@ -1,29 +1,32 @@
 // api/chat.js
 module.exports = async function handler(req, res) {
-  const allowedOrigin = 'https://manalo-high.vercel.app';
+  // IMPORTANT: Set CORS headers for ALL responses (including OPTIONS)
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Allow all origins for now
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Authorization');
 
-  // Set CORS headers for all requests
-  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-  // Handle preflight requests immediately
+  // Handle preflight OPTIONS request
   if (req.method === 'OPTIONS') {
-    return res.status(204).end(); // 204 No Content is safest
+    res.status(200).end();
+    return;
   }
 
-  // Only allow POST
+  // Only allow POST for actual requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
     const API_KEY = process.env.DEEPSEEK_API_KEY;
-    if (!API_KEY) throw new Error('DEEPSEEK_API_KEY not set');
+    if (!API_KEY) {
+      throw new Error('DEEPSEEK_API_KEY not set');
+    }
 
     const geminiRequest = req.body;
     const messages = [];
 
+    // Extract message from request
     if (geminiRequest.contents?.[0]?.parts?.[0]?.text) {
       messages.push({
         role: 'user',
@@ -31,6 +34,7 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    // Call DeepSeek API
     const deepseekResponse = await fetch('https://api.deepseek.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -48,11 +52,19 @@ module.exports = async function handler(req, res) {
 
     const data = await deepseekResponse.json();
 
-    if (data.error) return res.status(deepseekResponse.status).json(data);
+    // Handle DeepSeek errors
+    if (data.error) {
+      return res.status(deepseekResponse.status).json(data);
+    }
 
+    // Return response in Gemini format
     res.status(200).json({
       candidates: [{
-        content: { parts: [{ text: data.choices[0].message.content }] },
+        content: { 
+          parts: [{ 
+            text: data.choices[0].message.content 
+          }] 
+        },
         finishReason: data.choices[0].finish_reason,
         index: 0
       }],
@@ -64,7 +76,10 @@ module.exports = async function handler(req, res) {
     });
 
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Internal server error', message: err.message });
+    console.error('API Error:', err);
+    res.status(500).json({ 
+      error: 'Internal server error', 
+      message: err.message 
+    });
   }
 };
