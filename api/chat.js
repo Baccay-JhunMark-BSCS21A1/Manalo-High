@@ -3,10 +3,9 @@
 
 module.exports = async function handler(req, res) {
   // Enable CORS
-	res.setHeader('Access-Control-Allow-Origin', 'https://manalo-high.vercel.app');
-	res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-	res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-		
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   
   // Handle preflight requests
   if (req.method === 'OPTIONS') {
