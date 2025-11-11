@@ -2,7 +2,7 @@
 module.exports = async function handler(req, res) {
   // IMPORTANT: Set CORS headers for ALL responses (including OPTIONS)
   res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', 'https://manalo-high.vercel.app/index.html'); // Allow all origins for now
+  res.setHeader('Access-Control-Allow-Origin', 'https://manalo-high.vercel.app'); // Allow all origins for now
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Authorization');
 
